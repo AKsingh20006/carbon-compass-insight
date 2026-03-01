@@ -1,9 +1,18 @@
-// Emission Factors (Indian context)
+// Emission Factors (Indian context — CEA & IPCC references)
 export const EMISSION_FACTORS = {
-  electricity: 0.82, // kg CO₂ per kWh (Indian grid average)
-  petrol: 2.31,      // kg CO₂ per liter
-  diesel: 2.68,      // kg CO₂ per liter
-  waste: 0.5,        // kg CO₂ per kg waste avoided (landfill methane)
+  electricity: 0.716, // kg CO₂/kWh — CEA CO₂ Baseline Database v19 (2023), weighted avg Indian grid
+  petrol: 2.296,      // kg CO₂/liter — IPCC 2006 Guidelines, Vol 2, Table 3.2.1 (motor gasoline)
+  diesel: 2.653,      // kg CO₂/liter — IPCC 2006 Guidelines, Vol 2, Table 3.2.1
+  lpg: 1.498,         // kg CO₂/liter — IPCC 2006 Guidelines
+  waste: 0.58,        // kg CO₂eq/kg waste diverted from landfill — IPCC AR5, CH₄ avoidance
+};
+
+export const EMISSION_FACTOR_SOURCES = {
+  electricity: "Central Electricity Authority (CEA), CO₂ Baseline Database v19.0, 2023",
+  petrol: "IPCC 2006 Guidelines for National GHG Inventories, Vol 2, Ch 3",
+  diesel: "IPCC 2006 Guidelines for National GHG Inventories, Vol 2, Ch 3",
+  lpg: "IPCC 2006 Guidelines for National GHG Inventories, Vol 2, Ch 3",
+  waste: "IPCC AR5 — Methane avoidance from landfill diversion (GWP₁₀₀ = 28)",
 };
 
 export interface CaseStudy {
@@ -17,7 +26,7 @@ export interface CaseStudy {
   finalEnergy: number;
   baselineFuel: number; // liters/year
   finalFuel: number;
-  fuelType: "petrol" | "diesel" | "none";
+  fuelType: "petrol" | "diesel" | "lpg" | "none";
   wasteReduction: number; // kg/year
   investment: number; // ₹
   annualCostSavings: number; // ₹
@@ -32,13 +41,25 @@ export function fuelSaved(cs: CaseStudy) {
   return cs.baselineFuel - cs.finalFuel;
 }
 
+export function co2FromElectricity(cs: CaseStudy): number {
+  return energySaved(cs) * EMISSION_FACTORS.electricity;
+}
+
+export function co2FromFuel(cs: CaseStudy): number {
+  const factor =
+    cs.fuelType === "petrol" ? EMISSION_FACTORS.petrol
+    : cs.fuelType === "diesel" ? EMISSION_FACTORS.diesel
+    : cs.fuelType === "lpg" ? EMISSION_FACTORS.lpg
+    : 0;
+  return fuelSaved(cs) * factor;
+}
+
+export function co2FromWaste(cs: CaseStudy): number {
+  return cs.wasteReduction * EMISSION_FACTORS.waste;
+}
+
 export function co2Saved(cs: CaseStudy): number {
-  const elecCO2 = energySaved(cs) * EMISSION_FACTORS.electricity;
-  const fuelFactor = cs.fuelType === "petrol" ? EMISSION_FACTORS.petrol
-    : cs.fuelType === "diesel" ? EMISSION_FACTORS.diesel : 0;
-  const fuelCO2 = fuelSaved(cs) * fuelFactor;
-  const wasteCO2 = cs.wasteReduction * EMISSION_FACTORS.waste;
-  return Math.round(elecCO2 + fuelCO2 + wasteCO2);
+  return Math.round((co2FromElectricity(cs) + co2FromFuel(cs) + co2FromWaste(cs)) * 100) / 100;
 }
 
 export function paybackYears(cs: CaseStudy): number | null {
@@ -46,7 +67,7 @@ export function paybackYears(cs: CaseStudy): number | null {
   return Math.round((cs.investment / cs.annualCostSavings) * 10) / 10;
 }
 
-export const caseStudies: CaseStudy[] = [
+export const defaultCaseStudies: CaseStudy[] = [
   {
     id: 1,
     name: "Sharma Residence",
