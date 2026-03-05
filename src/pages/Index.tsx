@@ -1,4 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { defaultCaseStudies, CaseStudy } from "@/data/caseStudies";
 import KPISection from "@/components/dashboard/KPISection";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
@@ -7,9 +9,11 @@ import WhatIfSection from "@/components/dashboard/WhatIfSection";
 import FilterBar from "@/components/dashboard/FilterBar";
 import AddCaseStudy from "@/components/dashboard/AddCaseStudy";
 import MethodologySection from "@/components/dashboard/MethodologySection";
-import { Leaf } from "lucide-react";
+import { Leaf, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [studies, setStudies] = useState<CaseStudy[]>(defaultCaseStudies);
   const [selectedSector, setSelectedSector] = useState("All");
   const [selectedLocation, setSelectedLocation] = useState("All");
@@ -41,12 +45,23 @@ const Index = () => {
           <div className="rounded-lg bg-primary p-2">
             <Leaf className="h-6 w-6 text-primary-foreground" />
           </div>
-          <div>
+          <div className="flex-1">
             <h1 className="text-xl font-bold text-foreground">Low-Carbon Case Study Dashboard</h1>
             <p className="text-sm text-muted-foreground">
               Sustainability Capstone · {studies.length} Case Studies across India
             </p>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate("/auth");
+            }}
+          >
+            <LogOut className="h-4 w-4 mr-1" />
+            Sign Out
+          </Button>
         </div>
       </header>
 
