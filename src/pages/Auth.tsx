@@ -70,6 +70,41 @@ const Auth = () => {
     }
   };
 
+  if (isForgotPassword) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center space-y-2">
+            <div className="mx-auto rounded-lg bg-primary p-3 w-fit">
+              <Leaf className="h-8 w-8 text-primary-foreground" />
+            </div>
+            <CardTitle className="text-2xl">Forgot Password</CardTitle>
+            <CardDescription>Enter your email to receive a reset link</CardDescription>
+          </CardHeader>
+          <form onSubmit={handleForgotPassword}>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input id="email" type="email" placeholder="you@example.com" className="pl-9" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col gap-3">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Sending..." : "Send Reset Link"}
+              </Button>
+              <button type="button" onClick={() => setIsForgotPassword(false)} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Back to sign in
+              </button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
@@ -93,32 +128,22 @@ const Auth = () => {
               <Label htmlFor="email">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  className="pl-9"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <Input id="email" type="email" placeholder="you@example.com" className="pl-9" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                {isLogin && (
+                  <button type="button" onClick={() => setIsForgotPassword(true)} className="text-xs text-muted-foreground hover:text-primary transition-colors">
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className="pl-9"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={6}
-                />
+                <Input id="password" type="password" placeholder="••••••••" className="pl-9" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
               </div>
             </div>
           </CardContent>
@@ -127,11 +152,7 @@ const Auth = () => {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
             </Button>
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
+            <button type="button" onClick={() => setIsLogin(!isLogin)} className="text-sm text-muted-foreground hover:text-primary transition-colors">
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>
           </CardFooter>
