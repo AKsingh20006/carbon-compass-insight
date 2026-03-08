@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Leaf, Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User } from "lucide-react";
+import carbonLogo from "@/assets/carbon_insight.png";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -75,8 +76,8 @@ const Auth = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center space-y-2">
-            <div className="mx-auto rounded-lg bg-primary p-3 w-fit">
-              <Leaf className="h-8 w-8 text-primary-foreground" />
+            <div className="mx-auto w-48">
+              <img src={carbonLogo} alt="Carbon Insights Inc." className="w-full h-auto" />
             </div>
             <CardTitle className="text-2xl">Forgot Password</CardTitle>
             <CardDescription>Enter your email to receive a reset link</CardDescription>
@@ -109,8 +110,8 @@ const Auth = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto rounded-lg bg-primary p-3 w-fit">
-            <Leaf className="h-8 w-8 text-primary-foreground" />
+          <div className="mx-auto w-48">
+            <img src={carbonLogo} alt="Carbon Insights Inc." className="w-full h-auto" />
           </div>
           <CardTitle className="text-2xl">
             {isLogin ? "Welcome Back" : "Create Account"}
