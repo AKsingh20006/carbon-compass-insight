@@ -38,6 +38,10 @@ const Index = () => {
     setStudies((prev) => [...prev, ...newStudies]);
   }, []);
 
+  const handleRemoveStudy = useCallback((id: number) => {
+    setStudies((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/60 bg-card">
@@ -80,7 +84,7 @@ const Index = () => {
 
         <KPISection studies={filtered} />
         <DashboardCharts studies={filtered} />
-        <CaseStudyTable studies={filtered} />
+        <CaseStudyTable studies={filtered} onRemove={handleRemoveStudy} />
         <AddCaseStudy onAdd={handleAddStudies} nextId={nextId} />
         <WhatIfSection />
         <MethodologySection />
