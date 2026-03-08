@@ -38,6 +38,10 @@ const Index = () => {
     setStudies((prev) => [...prev, ...newStudies]);
   }, []);
 
+  const handleRemoveStudy = useCallback((id: number) => {
+    setStudies((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/60 bg-card">
