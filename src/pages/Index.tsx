@@ -84,7 +84,7 @@ const Index = () => {
 
         <KPISection studies={filtered} />
         <DashboardCharts studies={filtered} />
-        <CaseStudyTable studies={filtered} />
+        <CaseStudyTable studies={filtered} onRemove={handleRemoveStudy} />
         <AddCaseStudy onAdd={handleAddStudies} nextId={nextId} />
         <WhatIfSection />
         <MethodologySection />
