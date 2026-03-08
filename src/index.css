@@ -135,6 +135,12 @@
 }
 
 /* Hide Lovable badge */
-a[href*="lovable.dev"][target="_blank"] {
+#lovable-badge,
+a[href*="lovable.dev"][target="_blank"],
+[id*="lovable"],
+div:has(> a[href*="lovable.dev"]) {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
