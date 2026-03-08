@@ -3,12 +3,15 @@ import { CaseStudy, co2Saved, energySaved, paybackYears } from "@/data/caseStudi
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 interface Props {
   studies: CaseStudy[];
+  onRemove?: (id: number) => void;
 }
 
-const CaseStudyTable = ({ studies }: Props) => {
+const CaseStudyTable = ({ studies, onRemove }: Props) => {
   return (
     <Card className="border-border/60">
       <CardHeader className="pb-2">
@@ -27,6 +30,7 @@ const CaseStudyTable = ({ studies }: Props) => {
                 <TableHead className="text-right">CO₂ Saved (kg)</TableHead>
                 <TableHead className="text-right">Cost Saved (₹)</TableHead>
                 <TableHead className="text-right">Payback (yrs)</TableHead>
+                {onRemove && <TableHead className="w-12" />}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -40,6 +44,13 @@ const CaseStudyTable = ({ studies }: Props) => {
                   <TableCell className="text-right">{co2Saved(cs).toLocaleString()}</TableCell>
                   <TableCell className="text-right">₹{cs.annualCostSavings.toLocaleString()}</TableCell>
                   <TableCell className="text-right">{paybackYears(cs) ?? "—"}</TableCell>
+                  {onRemove && (
+                    <TableCell>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive" onClick={() => onRemove(cs.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
