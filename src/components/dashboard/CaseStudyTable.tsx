@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CaseStudy, co2Saved, energySaved, paybackYears } from "@/data/caseStudies";
+import { CaseStudy, co2Saved, energySaved, fuelSaved, paybackYears } from "@/data/caseStudies";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Download } from "lucide-react";
 
 interface Props {
   studies: CaseStudy[];
