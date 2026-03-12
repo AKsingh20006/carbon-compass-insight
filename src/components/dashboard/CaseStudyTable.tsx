@@ -12,10 +12,32 @@ interface Props {
 }
 
 const CaseStudyTable = ({ studies, onRemove }: Props) => {
+  const handleDownloadCSV = () => {
+    const headers = ["ID","Name","Sector","Location Type","Initiative","Initiative Type","Baseline Energy (kWh)","Final Energy (kWh)","Energy Saved (kWh)","Baseline Fuel (L)","Final Fuel (L)","Fuel Saved (L)","Fuel Type","Waste Reduction (kg)","CO2 Saved (kg)","Investment (₹)","Annual Cost Savings (₹)","Payback (years)"];
+    const rows = studies.map(cs => [
+      cs.id, `"${cs.name}"`, `"${cs.sector}"`, cs.locationType, `"${cs.initiative}"`, `"${cs.initiativeType}"`,
+      cs.baselineEnergy, cs.finalEnergy, energySaved(cs),
+      cs.baselineFuel, cs.finalFuel, fuelSaved(cs), cs.fuelType,
+      cs.wasteReduction, co2Saved(cs), cs.investment, cs.annualCostSavings, paybackYears(cs) ?? "N/A"
+    ].join(","));
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "case_studies.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <Card className="border-border/60">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 flex flex-row items-center justify-between">
         <CardTitle className="text-base">Case Study Details</CardTitle>
+        <Button variant="outline" size="sm" onClick={handleDownloadCSV}>
+          <Download className="h-4 w-4 mr-1" />
+          Download CSV
+        </Button>
       </CardHeader>
       <CardContent className="p-0">
         <div className="overflow-x-auto">
