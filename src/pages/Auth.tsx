@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import carbonLogo from "@/assets/carbon_insight.png";
 import { useToast } from "@/hooks/use-toast";
 
