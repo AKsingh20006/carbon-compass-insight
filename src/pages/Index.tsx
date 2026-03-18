@@ -9,6 +9,8 @@ import WhatIfSection from "@/components/dashboard/WhatIfSection";
 import FilterBar from "@/components/dashboard/FilterBar";
 import AddCaseStudy from "@/components/dashboard/AddCaseStudy";
 import MethodologySection from "@/components/dashboard/MethodologySection";
+import HelpDialog from "@/components/dashboard/HelpDialog";
+import ChatBot from "@/components/dashboard/ChatBot";
 import { Leaf, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -55,6 +57,7 @@ const Index = () => {
               Sustainability Capstone · {studies.length} Case Studies across India
             </p>
           </div>
+          <HelpDialog />
           <Button
             variant="ghost"
             size="sm"
@@ -95,6 +98,8 @@ const Index = () => {
           Emission factors sourced from CEA v19.0 (2023) & IPCC 2006 Guidelines · All calculations use Tier 1 methodology
         </div>
       </footer>
+
+      <ChatBot />
     </div>
   );
 };
