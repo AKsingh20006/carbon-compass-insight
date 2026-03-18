@@ -57,6 +57,7 @@ const Index = () => {
               Sustainability Capstone · {studies.length} Case Studies across India
             </p>
           </div>
+          <HelpDialog />
           <Button
             variant="ghost"
             size="sm"
