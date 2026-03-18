@@ -98,6 +98,8 @@ const Index = () => {
           Emission factors sourced from CEA v19.0 (2023) & IPCC 2006 Guidelines · All calculations use Tier 1 methodology
         </div>
       </footer>
+
+      <ChatBot />
     </div>
   );
 };
